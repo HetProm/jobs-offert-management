@@ -1,0 +1,15 @@
+{
+  "name": "jobs-offert-management",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "starttailwind": "npx tailwindcss -i ./public/css/tailwind.css -o ./public/css/output_tailwind.css --watch"
+  },
+  "author": "Krystian Hettman",
+  "license": "GPL-2.0-only",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

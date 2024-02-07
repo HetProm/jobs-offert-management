@@ -13,6 +13,13 @@
  * Text Domain:       jobs-offert-management
  */
 
+ function plugin_enqueue_styles(){
+
+    wp_enqueue_style( 'tailwind-style', plugins_url( '/public/css/output_tailwind.css', __FILE__ ), array(), '1.0' );
+
+}
+
+add_action( 'wp_enqueue_scripts', 'plugin_enqueue_styles' );
 
 $db_creator_file = plugin_dir_path( __FILE__ ) . 'jom-offerts/jom-db-creator.php';
 
@@ -20,6 +27,22 @@ $db_creator_file = plugin_dir_path( __FILE__ ) . 'jom-offerts/jom-db-creator.php
 if ( file_exists( $db_creator_file ) ) {
     require_once $db_creator_file;    
 }
+
+
+$admin_menu_file = plugin_dir_path(__FILE__) . 'admin/jom-admin-menu.php';
+
+
+if ( file_exists( $admin_menu_file ) ) {
+    require_once $admin_menu_file;
+}
+
+
+$user_view_shortcode = plugin_dir_path( __FILE__ ) . 'public/jom-user-view.php';
+
+if ( file_exists( $user_view_shortcode)) {
+    require_once $user_view_shortcode;
+}
+
 
 
 ?>
