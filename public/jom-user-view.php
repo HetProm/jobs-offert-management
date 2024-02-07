@@ -4,27 +4,24 @@
 function jom_user_jobs_table($atts) {
     global $wpdb;
 
-    // Pobierz ID użytkownika, dla którego chcemy sprawdzić oferty pracy
     $user_id = get_current_user_id();
 
-    // Sprawdź, czy użytkownik ma przypisane oferty pracy w bazie danych
-    $table_name = $wpdb->prefix . 'jom_users_personal'; // Zakładam, że nazwa tabeli z ofertami to 'jobs_offers', należy dostosować do rzeczywistej nazwy tabeli
+    $table_name = $wpdb->prefix . 'jom_users_personal'; 
 
     $query = $wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE user_id = %d", $user_id);
     $count = $wpdb->get_var($query);
 
-    // Jeśli użytkownik ma przypisane oferty pracy, wygeneruj tabelę
+
     if ($count > 0) {
         $table_content = '<table class="jom-user-jobs-table">';
-        // Tutaj możesz pobrać dane z bazy danych i wygenerować wiersze tabeli na podstawie tych danych
-        // Przykładowy kod:
+
         $table_content .= '<tr><td>ID oferty pracy</td><td>Nazwa firmy</td><td>Stanowisko</td></tr>';
-        // Tutaj możesz dodać więcej wierszy tabeli na podstawie danych użytkownika
+
         $table_content .= '</table>';
 
         return $table_content;
     } else {
-        // Jeśli użytkownik nie ma przypisanych ofert pracy, zwróć odpowiedni komunikat
+        
         return <<<HTML
                     <form class="max-w-[25em] remove-wp-limit mx-auto">
                         <div class="flex flex-col md:flex-row md:space-x-10">
