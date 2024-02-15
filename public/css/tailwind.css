@@ -5,3 +5,118 @@
 .remove-wp-limit{
     max-width: fit-content !important;
 }
+
+.ui-datepicker-calendar td:nth-child(n) {
+    border-left: none;
+  }
+
+.ui-datepicker-calendar td:nth-child(7n) {
+    border-right: none;
+  }
+
+.ui-datepicker-prev, .ui-datepicker-next{
+    position: absolute;
+  }
+.ui-datepicker-prev{
+    left: 12px;
+}
+
+.ui-datepicker-next{
+    right: 40px;
+}
+
+.ui-datepicker {
+    font-family: sans-serif; 
+    font-size: 14px; 
+    line-height: 1.5; 
+    background-color: #fff; 
+    border: 1px solid #ddd; 
+    border-radius: 1rem; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); 
+  }
+  
+  
+  .ui-datepicker-header {
+    background-color: #337ab7; 
+    color: #fff; 
+    text-align: center; 
+    padding: 10px; 
+    border-radius: 1rem;
+    border-bottom-left-radius: unset;
+    border-bottom-right-radius: unset;
+  }
+  
+  
+  .ui-datepicker-prev,
+  .ui-datepicker-next {
+    background-color: #337ab7; 
+    color: #fff; 
+    border: none; 
+    border-radius: 50%; 
+    width: 30px; 
+    height: 30px; 
+    text-align: center; 
+    cursor: pointer; 
+  }
+  
+  
+  .ui-datepicker-title {
+    font-weight: bold; 
+    margin: 0; 
+  }
+  
+  
+  .ui-datepicker-calendar {
+    width: 100%; 
+    margin: 0 auto; 
+  }
+  
+  
+  .ui-datepicker-calendar td {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-bottom: none;
+  }
+  
+  
+  .ui-datepicker-today {
+    background-color: #f0f0f0; 
+  }
+  
+  
+  .ui-datepicker-selected {
+    background-color: #337ab7; 
+    color: #fff; 
+  }
+  
+  
+  .ui-datepicker-week-end {
+    color: #666; 
+  }
+  
+  
+  .ui-state-default {
+    background-color: #337ab7; 
+    color: #fff; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    padding: 5px 10px; 
+  
+    
+    &:hover {
+      background-color: #286090; 
+    }
+  }
+  
+  
+  .ui-state-active {
+    background-color: #000; 
+    color: #fff; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    padding: 5px 10px; 
+  }
+  

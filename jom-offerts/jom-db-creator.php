@@ -1,6 +1,6 @@
 <?php
 
-
+defined( 'ABSPATH' ) || exit;
 function jom_create_table() {
 
  global $wpdb;
@@ -19,9 +19,10 @@ function jom_create_table() {
         company_name varchar(100) NOT NULL,
         experience varchar(50),
         operating_mode varchar(50),
-        work_type varchar(50),
+        type_of_work varchar(50),
         employment_type varchar(50),
-        salary varchar(50),
+        salary_from varchar(50),
+        salary_to varchar(50),
         location varchar(100),
         short_description varchar(255),
         application_status varchar(20) NOT NULL,

@@ -1,6 +1,6 @@
 <?php  
 
-
+defined( 'ABSPATH' ) || exit;
 function jom_user_jobs_table($atts) {
     global $wpdb;
 
@@ -12,77 +12,93 @@ function jom_user_jobs_table($atts) {
     $count = $wpdb->get_var($query);
 
 
-    if ($count > 0) {
-        $table_content = '<table class="jom-user-jobs-table">';
+if ($count > 0) {
+    $query = $wpdb->prepare("SELECT * FROM $table_name WHERE user_id = %d", $user_id);
+    $results = $wpdb->get_results($query, ARRAY_A);
+    
+    $content = '<table class="table-auto w-full">
+            <thead class="bg-gray-300">
+                <tr class="rounded-lg">
+                    <th class="px-4 py-2 rounded-tl-lg">ID oferty pracy</th>
+                    <th class="px-4 py-2">Nazwa firmy</th>
+                    <th class="px-4 py-2">Stanowisko</th>
+                    <th class="px-4 py-2">Doświadczenie</th>
+                    <th class="px-4 py-2">Tryb pracy</th>
+                    <th class="px-4 py-2">Rodzaj pracy</th>
+                    <th class="px-4 py-2">Typ zatrudnienia</th>
+                    <th class="px-4 py-2">Pensja od</th>
+                    <th class="px-4 py-2">Pensja do</th>
+                    <th class="px-4 py-2">Lokalizacja</th>
+                    <th class="px-4 py-2">Krótki opis</th>
+                    <th class="px-4 py-2 rounded-tr-lg">Data zgłoszenia</th>
+                </tr>
+            </thead>
+        <tbody>';
 
-        $table_content .= '<tr><td>ID oferty pracy</td><td>Nazwa firmy</td><td>Stanowisko</td></tr>';
+    foreach ($results as $row) {
+        $formatted_date = date('Y-m-d', strtotime($row['application_date']));
+        $content .= '<tr>
+                <td class="border px-4 py-2">' . $row['user_id'] . '</td>
+                <td class="border px-4 py-2">' . $row['job_title'] . '</td>
+                <td class="border px-4 py-2">' . $row['company_name'] . '</td>
+                <td class="border px-4 py-2">' . $row['experience'] . '</td>
+                <td class="border px-4 py-2">' . $row['operating_mode'] . '</td>
+                <td class="border px-4 py-2">' . $row['type_of_work'] . '</td>
+                <td class="border px-4 py-2">' . $row['employment_type'] . '</td>
+                <td class="border px-4 py-2">' . $row['salary_from'] . '</td>
+                <td class="border px-4 py-2">' . $row['salary_to'] . '</td>
+                <td class="border px-4 py-2">' . $row['location'] . '</td>
+                <td class="border px-4 py-2">' . $row['short_description'] . '</td>
+                <td class="border px-4 py-2">' . $formatted_date . '</td>
+            </tr>';
 
-        $table_content .= '</table>';
+    }
 
-        return $table_content;
-    } else {
+    $content .= '</tbody>
+    </table>';
+
+    return $content;
+} else {
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit-button'])) {
+     
+            
+            $job_title = sanitize_text_field($_POST['job_title']);
+            $company_name = sanitize_text_field($_POST['company_name']);
+            $experience = sanitize_text_field($_POST['experience']); 
+            $operating_mode = sanitize_text_field($_POST['operating_mode']); 
+            $type_of_work = sanitize_text_field($_POST['type_of_work']); 
+            $employment_type = sanitize_text_field($_POST['employment_type']); 
+            $salary_from = sanitize_text_field($_POST['salary-from']); 
+            $salary_to = sanitize_text_field($_POST['salary-to']); 
+            $location = sanitize_text_field($_POST['location']); 
+            $short_description = sanitize_text_field($_POST['short_description']); 
+            $data = sanitize_text_field( $_POST['datepicker'] );
+
+            
+            $wpdb->insert(
+                $table_name,
+                array(
+                    'user_id' => $user_id,
+                    'job_title' => $job_title,
+                    'company_name' => $company_name,
+                    'experience' => $experience, 
+                    'operating_mode' => $operating_mode, 
+                    'type_of_work' => $type_of_work, 
+                    'employment_type' => $employment_type, 
+                    'salary_from' => $salary_from, 
+                    'salary_to' => $salary_to, 
+                    'location' => $location, 
+                    'short_description' => $short_description, 
+                    'application_date' => $data
+                ),
+                array('%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s') 
+            );
+
+            
+        }
         
-        return <<<HTML
-                    <form class="max-w-[25em] remove-wp-limit mx-auto">
-                        <div class="flex flex-col md:flex-row md:space-x-10">
-                            <div class=" max-w-[15em]">
-                                <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod fugiat ducimus accusamus iste laborum! Eligendi assumenda, quaerat quod sequi, alias beatae accusantium tempora blanditiis, omnis culpa est? Ad, nemo fugiat.</span>
-                            </div>
-                            <div class="flex space-x-10 max-sm:mt-[1em]">
-                                <div class="flex flex-col space-y-6 w-full">
-                                    <div class="flex max-sm:flex-col md:space-x-6">
-                                        <div class="flex flex-col w-full">
-                                            <label for="job_title">Job title</label>
-                                            <input type="text" name="job_title" id="job_title" class="w-full border rounded-md border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500">
-                                        </div>
-                                        <div class="flex flex-col w-full">
-                                            <label for="company_name">Company name</label>
-                                            <input type="text" name="company_name" id="company_name" class="w-full border rounded-md border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500">
-                                        </div>
-                                    </div>
-                                    <div class="flex max-sm:flex-col md:space-x-6">
-                                        <div class="flex flex-col w-full">
-                                            <label for="experience">Experience</label>
-                                            <input type="text" name="experience" id="experience" class="w-full border rounded-md border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500">
-                                        </div>
-                                        <div class="flex flex-col w-full">
-                                            <label for="operating_mode">Operating mode</label>
-                                            <input type="text" name="operating_mode" id="operating_mode" class="w-full border rounded-md border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500">
-                                        </div>
-                                    </div>
-                                    <div class="flex max-sm:flex-col md:space-x-6">
-                                        <div class="flex flex-col w-full">
-                                            <label for="type_of_work">Type of work</label>
-                                            <input type="text" name="type_of_work" id="type_of_work" class="w-full border rounded-md border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500">
-                                        </div>
-                                        <div class="flex flex-col w-full">
-                                            <label for="employment_type">Employment type</label>
-                                            <input type="text" name="employment_type" id="employment_type" class="w-full border rounded-md border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500">
-                                        </div>
-                                    </div>
-                                    <div class="flex max-sm:flex-col md:space-x-6">
-                                        <div class="flex flex-col w-full">
-                                            <label for="salary">Salary</label>
-                                            <input type="text" name="salary" id="salary" class="w-full border rounded-md border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500">
-                                        </div>
-                                        <div class="flex flex-col w-full">
-                                            <label for="location">Location</label>
-                                            <input type="text" name="location" id="location" class="w-full border rounded-md border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500">
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-col w-full">
-                                        <label for="short_description">Short description</label>
-                                        <textarea name="short_description" id="short_description" class="w-full border rounded-md border-gray-300 py-2 px-3 focus:outline-none focus:border-blue-500"></textarea>
-                                    </div>
-                                    <div class="flex justify-end">
-                                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
-                HTML;
+        return include("user_panel/jom-user-form.php");
     }
 }
 add_shortcode('jom_user_jobs_table', 'jom_user_jobs_table');
